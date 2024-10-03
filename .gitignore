@@ -1,0 +1,57 @@
+# Gradle specific
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+.gradle-cache/
+
+# Kotlin specific
+*.class
+*.jar
+*.war
+*.ear
+
+# Ignore IntelliJ IDEA project files
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+*.hprof
+
+# Ignore Eclipse project files
+.project
+.classpath
+.caches/
+.settings/
+.loadpath
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore local environment configuration
+.env
+
+# Ignore Maven local repository
+.m2/
+
+# Ignore test reports and coverage data
+/test-results/
+coverage/
+.coverage/
+
+# Spring Boot specific
+target/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
