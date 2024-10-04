@@ -21,3 +21,7 @@ logging:
   level:
     root: INFO
     com.intellexi.race_app_cs: DEBUG
+
+security:
+  jwt:
+    secret: "JEAitoIlupFy7I1t3xIGlUQARV3rtpdYCfLwCrNJVcCYv9tZfRuz/FtsB+DvE9DQ"
