@@ -39,6 +39,7 @@ services:
       SPRING_RABBITMQ_USERNAME: admin
       SPRING_RABBITMQ_PASSWORD: admin
       SPRING_PROFILES_ACTIVE: docker
+      CORS_ALLOWED_ORIGIN: http://localhost:3000
     depends_on:
       - postgres-db
       - rabbitmq
@@ -60,6 +61,7 @@ services:
       SPRING_RABBITMQ_USERNAME: admin
       SPRING_RABBITMQ_PASSWORD: admin
       SPRING_PROFILES_ACTIVE: docker
+      CORS_ALLOWED_ORIGIN: http://localhost:3000
     depends_on:
       - postgres-db
       - rabbitmq

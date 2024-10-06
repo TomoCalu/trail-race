@@ -25,3 +25,6 @@ server:
 security:
   jwt:
     secret: "JEAitoIlupFy7I1t3xIGlUQARV3rtpdYCfLwCrNJVcCYv9tZfRuz/FtsB+DvE9DQ"
+
+cors:
+  allowed-origin: http://localhost:3000

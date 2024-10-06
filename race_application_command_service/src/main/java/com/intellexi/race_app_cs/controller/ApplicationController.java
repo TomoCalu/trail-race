@@ -15,13 +15,13 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('APPLICANT')")
     @PostMapping
     public void createApplication(@RequestBody Application application) {
         applicationService.sendCreateApplicationEvent(application);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('APPLICANT')")
     @DeleteMapping("/{id}")
     public void deleteApplication(@PathVariable UUID id) {
         applicationService.sendDeleteApplicationEvent(id);

@@ -1,15 +1,11 @@
 package com.intellexi.race_app_qs.config;
 
-import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import com.intellexi.race_app_qs.exception.EventProcessingException;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
-import org.springframework.amqp.rabbit.retry.RejectAndDontRequeueRecoverer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.retry.interceptor.RetryInterceptorBuilder;
+import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMqErrorHandlerConfig {

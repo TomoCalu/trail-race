@@ -41,7 +41,8 @@ public class RabbitMqConsumer {
             switch (applicationEvent.getEventType()) {
                 case CREATE -> applicationService.createApplication(applicationEvent.getApplication());
                 case DELETE -> applicationService.deleteApplication(applicationEvent.getApplication().getId());
-                default -> throw new ApplicationEventProcessingException("Unknown event type: " + applicationEvent.getEventType());
+                default ->
+                        throw new ApplicationEventProcessingException("Unknown event type: " + applicationEvent.getEventType());
             }
         } catch (Exception e) {
             logger.error("Error processing application event: {}", e.getMessage(), e);

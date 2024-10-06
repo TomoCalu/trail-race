@@ -3,10 +3,7 @@ package com.intellexi.race_app_qs.controller;
 import com.intellexi.race_app_qs.model.Application;
 import com.intellexi.race_app_qs.service.ApplicationService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,8 +16,12 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @GetMapping
-    public List<Application> getAllApplications() {
-        return applicationService.getAllApplications();
+    public List<Application> getFilteredApplications(
+            @RequestParam(required = false) UUID raceId,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName
+    ) {
+        return applicationService.getFilteredApplications(raceId, firstName, lastName);
     }
 
     @GetMapping("/{id}")

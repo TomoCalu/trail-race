@@ -15,8 +15,14 @@ public class ApplicationService {
 
     private final ApplicationRepository applicationRepository;
 
-    public List<Application> getAllApplications() {
-        return applicationRepository.findAll();
+    public List<Application> getFilteredApplications(UUID raceId, String firstName, String lastName) {
+        if (raceId != null) {
+            return applicationRepository.findByRaceId(raceId);
+        } else if (firstName != null && lastName != null) {
+            return applicationRepository.findByFirstNameAndLastName(firstName, lastName);
+        } else {
+            return applicationRepository.findAll();
+        }
     }
 
     public Application getApplicationById(UUID id) {

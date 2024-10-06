@@ -33,7 +33,7 @@ Thumbs.db
 *.log
 
 # Ignore local environment configuration
-.env
+# .env # should be present in gitignore, but will be commited for easier showcase
 
 # Ignore Maven local repository
 .m2/
