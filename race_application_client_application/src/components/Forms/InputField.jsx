@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 const InputField = ({ field, value, handleChange }) => {
   return (
     <div className="mb-4">
       <label className="block text-lg font-medium mb-2">{field.label}</label>
-      {field.type === 'select' ? (
+      {field.type === "select" ? (
         <select
           name={field.name}
           value={value}
@@ -12,7 +12,9 @@ const InputField = ({ field, value, handleChange }) => {
           className="select select-bordered w-full"
           required={field.required}
         >
-          <option value="" disabled>{field.placeholder}</option>
+          <option value="" disabled>
+            {field.placeholder}
+          </option>
           {field.options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -21,7 +23,7 @@ const InputField = ({ field, value, handleChange }) => {
         </select>
       ) : (
         <input
-          type={field.type || 'text'}
+          type={field.type || "text"}
           name={field.name}
           value={value}
           onChange={handleChange}

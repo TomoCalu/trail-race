@@ -1,10 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
-import Table from '../components/Table';
-import { getDistanceLabel } from '../constants/raceDistances';
-import { getUserApplications, deleteApplication } from '../services/applicationApi';
-import { getRaceDetails } from '../services/raceApi';
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+import Table from "../components/Table";
+import { getDistanceLabel } from "../constants/raceDistances";
+import {
+  getUserApplications,
+  deleteApplication,
+} from "../services/applicationApi";
+import { getRaceDetails } from "../services/raceApi";
 
 const MyApplications = () => {
   const { token, user, checkTokenExpiration } = useContext(AuthContext);
@@ -15,7 +18,11 @@ const MyApplications = () => {
   useEffect(() => {
     const loadUserApplications = async () => {
       try {
-        const apps = await getUserApplications(user.firstName, user.lastName, token);
+        const apps = await getUserApplications(
+          user.firstName,
+          user.lastName,
+          token,
+        );
 
         const updatedApplications = await Promise.all(
           apps.map(async (app) => {
@@ -27,10 +34,10 @@ const MyApplications = () => {
                 raceDistance: race.distance,
               };
             } catch (error) {
-              console.error('Failed to fetch race details:', error);
-              return { ...app, raceName: 'Unknown', raceDistance: 'Unknown' };
+              console.error("Failed to fetch race details:", error);
+              return { ...app, raceName: "Unknown", raceDistance: "Unknown" };
             }
-          })
+          }),
         );
 
         setApplications(updatedApplications);
@@ -49,26 +56,30 @@ const MyApplications = () => {
   };
 
   const handleDelete = async (applicationId) => {
-    if (window.confirm('Are you sure you want to delete this application?')) {
+    if (window.confirm("Are you sure you want to delete this application?")) {
       try {
         await deleteApplication(applicationId, token);
-        setApplications((prevApps) => prevApps.filter((app) => app.id !== applicationId));
+        setApplications((prevApps) =>
+          prevApps.filter((app) => app.id !== applicationId),
+        );
       } catch (error) {
-        console.error('Failed to delete application:', error);
+        console.error("Failed to delete application:", error);
       }
     }
   };
 
   const columns = [
-    { label: 'Race Name', accessor: 'raceName' },
-    { label: 'Distance', accessor: 'raceDistance', format: getDistanceLabel },
-    { label: 'Club', accessor: 'club' },
+    { label: "Race Name", accessor: "raceName" },
+    { label: "Distance", accessor: "raceDistance", format: getDistanceLabel },
+    { label: "Club", accessor: "club" },
   ];
 
   return (
     <div className="container mx-auto p-4 max-w-screen-lg">
       <div className="bg-base-100 shadow-lg rounded-lg mb-8 p-6">
-        <h2 className="text-4xl font-bold text-center text-primary mb-8">My Applications</h2>
+        <h2 className="text-4xl font-bold text-center text-primary mb-8">
+          My Applications
+        </h2>
         <div className="w-full">
           {loading ? (
             <p>Loading...</p>
@@ -84,7 +95,7 @@ const MyApplications = () => {
                   className="btn btn-error btn-sm"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDelete(row.id)
+                    handleDelete(row.id);
                   }}
                 >
                   Delete

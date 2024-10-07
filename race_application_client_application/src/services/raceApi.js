@@ -1,5 +1,5 @@
-import queryApi  from './queryApi';
-import commandApi from './commandApi';
+import queryApi from "./queryApi";
+import commandApi from "./commandApi";
 
 const getRaceDetails = async (raceId, token) => {
   const response = await queryApi.get(`/races/${raceId}`, {
@@ -15,14 +15,14 @@ const saveRace = async (raceId, raceData, token) => {
     ? commandApi.put(`/races/${raceId}`, raceData, {
         headers: { Authorization: `Bearer ${token}` },
       })
-    : commandApi.post('/races', raceData, {
+    : commandApi.post("/races", raceData, {
         headers: { Authorization: `Bearer ${token}` },
       });
   return request;
 };
 
 const getRaces = async (token) => {
-  const response = await queryApi.get('/races', {
+  const response = await queryApi.get("/races", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -38,4 +38,4 @@ const deleteRace = async (raceId, token) => {
   });
 };
 
-export {getRaceDetails, saveRace, getRaces, deleteRace}
+export { getRaceDetails, saveRace, getRaces, deleteRace };

@@ -1,5 +1,5 @@
-import commandApi  from './commandApi';
-import queryApi from './queryApi';
+import commandApi from "./commandApi";
+import queryApi from "./queryApi";
 
 const getApplicationById = (appId, token) => {
   return commandApi.get(`/applications/${appId}`, {
@@ -14,17 +14,20 @@ const updateApplication = (appId, data, token) => {
 };
 
 const createApplication = (data, token) => {
-  return commandApi.post('/applications', data, {
+  return commandApi.post("/applications", data, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 const getUserApplications = async (firstName, lastName, token) => {
-  const response = await queryApi.get(`/applications?firstName=${firstName}&lastName=${lastName}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await queryApi.get(
+    `/applications?firstName=${firstName}&lastName=${lastName}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
   return response.data;
 };
 
@@ -45,4 +48,11 @@ const deleteApplication = async (appId, token) => {
   });
 };
 
-export { getApplicationById, updateApplication, createApplication, getUserApplications, getRaceApplications, deleteApplication };
+export {
+  getApplicationById,
+  updateApplication,
+  createApplication,
+  getUserApplications,
+  getRaceApplications,
+  deleteApplication,
+};
