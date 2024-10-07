@@ -1,7 +1,6 @@
 # Gradle specific
 .gradle/
 build/
-!gradle/wrapper/gradle-wrapper.jar
 .gradle-cache/
 
 # Kotlin specific
