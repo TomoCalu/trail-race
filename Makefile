@@ -1,11 +1,10 @@
-# Makefile for managing the project
-
 # Default goal
 .DEFAULT_GOAL := help
 
 # Variables
 DOCKER_COMPOSE_FILE := docker-compose.yml
 GRADLE := ./gradlew
+FRONTEND_DIR := ./race_application_client_application
 
 # Help command
 .PHONY: help
@@ -17,7 +16,7 @@ help: ## Display this help message
 
 # Build commands
 .PHONY: build
-build: build-local build-docker ## Build locally and Docker images
+build: build-local build-docker frontend-install ## Build locally and Docker images
 
 .PHONY: build-local
 build-local: ## Build JAR files locally using Gradle
@@ -29,23 +28,55 @@ build-docker: ## Build Docker images for all services
 	@echo "Building Docker images..."
 	docker-compose -f $(DOCKER_COMPOSE_FILE) build
 
+# Backend Test Command
+.PHONY: backend-test
+backend-test: ## Run backend tests
+	@echo "Running backend tests..."
+	$(GRADLE) test
+
+# Frontend operations
+.PHONY: frontend-install
+frontend-install: ## Install frontend dependencies
+	@echo "Installing frontend dependencies..."
+	cd $(FRONTEND_DIR) && npm install
+
+.PHONY: frontend-start
+frontend-start: ## Start the frontend application in development mode
+	@echo "Starting frontend application..."
+	cd $(FRONTEND_DIR) && npm start
+
+.PHONY: frontend-lint
+frontend-lint: ## Run linting on the frontend code
+	@echo "Linting frontend code..."
+	cd $(FRONTEND_DIR) && npm run lint:fix
+
+.PHONY: frontend-test
+frontend-test: ## Run frontend tests
+	@echo "Running frontend tests..."
+	cd $(FRONTEND_DIR) && npm run test
+
+.PHONY: frontend-prettier
+frontend-prettier: ## Run Prettier to fix formatting on frontend code
+	@echo "Running Prettier on frontend code..."
+	cd $(FRONTEND_DIR) && npm run prettier:fix
+
 # Run commands
 .PHONY: run
-run: start-dependencies run-services ## Start dependencies and run services
+run: start-dependencies run-services frontend-start ## Start dependencies, run services, and start frontend
 
 .PHONY: start-dependencies
 start-dependencies: ## Start PostgreSQL and RabbitMQ using Docker Compose
 	@echo "Starting PostgreSQL and RabbitMQ..."
 	docker-compose -f $(DOCKER_COMPOSE_FILE) up -d postgres-db rabbitmq
 
-.PHONY: run-services
+.PHONY: run-servicesa
 run-services: ## Run all services using Docker Compose
 	@echo "Starting command and query services..."
 	docker-compose -f $(DOCKER_COMPOSE_FILE) up -d race_application_query_service race_application_command_service
 
 # Stop commands
 .PHONY: stop
-stop: stop-services stop-dependencies ## Stop all services
+stop: stop-services stop-dependencies ## Stop all services including frontend
 
 .PHONY: stop-services
 stop-services: ## Stop command and query services
@@ -56,7 +87,6 @@ stop-services: ## Stop command and query services
 stop-dependencies: ## Stop PostgreSQL and RabbitMQ
 	@echo "Stopping PostgreSQL and RabbitMQ..."
 	docker-compose -f $(DOCKER_COMPOSE_FILE) stop postgres-db rabbitmq
-
 # Remove commands
 .PHONY: down
 down: ## Remove all services and dependencies
@@ -65,8 +95,8 @@ down: ## Remove all services and dependencies
 
 # Test commands
 .PHONY: test
-test: ## Run tests (tests should be part of Dockerfile if needed)
-	@echo "Running tests in Docker containers..."
+test: backend-test frontend-test ## Run tests for both frontend and backend
+	@echo "Running tests for both frontend and backend..."
 
 # Clean commands
 .PHONY: clean
