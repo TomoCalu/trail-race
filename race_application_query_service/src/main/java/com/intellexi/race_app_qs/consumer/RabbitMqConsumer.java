@@ -6,13 +6,13 @@ import com.intellexi.race_app_qs.exception.ApplicationEventProcessingException;
 import com.intellexi.race_app_qs.exception.RaceEventProcessingException;
 import com.intellexi.race_app_qs.service.ApplicationService;
 import com.intellexi.race_app_qs.service.RaceService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Component
 public class RabbitMqConsumer {
     private static final Logger logger = LoggerFactory.getLogger(RabbitMqConsumer.class);
@@ -20,7 +20,7 @@ public class RabbitMqConsumer {
     private final RaceService raceService;
     private final ApplicationService applicationService;
 
-    @RabbitListener(queues = "race.events", errorHandler = "customRabbitListenerErrorHandler")
+    @RabbitListener(queues = "${spring.rabbitmq.queues.race}", errorHandler = "customRabbitListenerErrorHandler")
     public void handleRaceEvent(RaceEvent raceEvent) {
         try {
             switch (raceEvent.getEventType()) {
@@ -35,7 +35,7 @@ public class RabbitMqConsumer {
         }
     }
 
-    @RabbitListener(queues = "application.events", errorHandler = "customRabbitListenerErrorHandler")
+    @RabbitListener(queues = "${spring.rabbitmq.queues.application}", errorHandler = "customRabbitListenerErrorHandler")
     public void handleApplicationEvent(ApplicationEvent applicationEvent) {
         try {
             switch (applicationEvent.getEventType()) {

@@ -16,7 +16,6 @@ public class RaceService {
     private final RabbitMqProducer rabbitMqProducer;
 
     public void sendCreateRaceEvent(Race race) {
-        race.setId(UUID.randomUUID());
         RaceEvent raceEvent = new RaceEvent(EventType.CREATE, race);
         rabbitMqProducer.publishRaceEvent(raceEvent);
     }

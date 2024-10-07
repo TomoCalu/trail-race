@@ -31,8 +31,6 @@ public class ApplicationService {
     }
 
     public void createApplication(Application application) {
-        application.setId(UUID.randomUUID());
-
         applicationRepository.save(application);
     }
 

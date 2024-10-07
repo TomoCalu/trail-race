@@ -25,8 +25,6 @@ public class RaceService {
     }
 
     public void createRace(Race race) {
-        race.setId(UUID.randomUUID());
-
         raceRepository.save(race);
     }
 

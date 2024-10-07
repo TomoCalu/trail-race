@@ -16,7 +16,6 @@ public class ApplicationService {
     private final RabbitMqProducer rabbitMqProducer;
 
     public void sendCreateApplicationEvent(Application application) {
-        application.setId(UUID.randomUUID());
         ApplicationEvent applicationEvent = new ApplicationEvent(EventType.CREATE, application);
         rabbitMqProducer.publishApplicationEvent(applicationEvent);
     }
