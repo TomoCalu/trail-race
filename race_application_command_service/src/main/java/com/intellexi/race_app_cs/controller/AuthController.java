@@ -5,6 +5,8 @@ import com.intellexi.race_app_cs.util.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +24,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public Map<String, String> createAuthenticationToken(@RequestBody AuthRequest authRequest) {
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
         );
-        final String jwt = jwtUtil.generateToken(authRequest.getEmail());
-        return Map.of("token", jwt);
+        if (authentication.isAuthenticated()) {
+            final String jwt = jwtUtil.generateToken(authRequest.getEmail());
+            return Map.of("token", jwt);
+        } else {
+            throw new UsernameNotFoundException("Invalid username or password!");
+        }
     }
 }
