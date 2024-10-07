@@ -1,51 +1,59 @@
-import commandApi from "./commandApi";
-import queryApi from "./queryApi";
+import commandApi from './commandApi';
+import queryApi from './queryApi';
 
-const getApplicationById = (appId, token) => {
-  return commandApi.get(`/applications/${appId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+const getApplicationById = async (appId) => {
+  try {
+    const response = await commandApi.get(`/applications/${appId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to retrieve application.');
+  }
 };
 
-const updateApplication = (appId, data, token) => {
-  return commandApi.put(`/applications/${appId}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+const updateApplication = async (appId, data) => {
+  try {
+    const response = await commandApi.put(`/applications/${appId}`, data);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to update application.');
+  }
 };
 
-const createApplication = (data, token) => {
-  return commandApi.post("/applications", data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+const createApplication = async (data) => {
+  try {
+    const response = await commandApi.post('/applications', data);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to create application.');
+  }
 };
 
-const getUserApplications = async (firstName, lastName, token) => {
-  const response = await queryApi.get(
-    `/applications?firstName=${firstName}&lastName=${lastName}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-  return response.data;
+const getUserApplications = async (firstName, lastName) => {
+  try {
+    const response = await queryApi.get(
+      `/applications?firstName=${firstName}&lastName=${lastName}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to retrieve user applications.');
+  }
 };
 
-const getRaceApplications = async (raceId, token) => {
-  const response = await queryApi.get(`/applications?raceId=${raceId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+const getRaceApplications = async (raceId) => {
+  try {
+    const response = await queryApi.get(`/applications?raceId=${raceId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to retrieve race applications.');
+  }
 };
 
-const deleteApplication = async (appId, token) => {
-  await commandApi.delete(`/applications/${appId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const deleteApplication = async (appId) => {
+  try {
+    await commandApi.delete(`/applications/${appId}`);
+  } catch (error) {
+    throw new Error('Failed to delete application.');
+  }
 };
 
 export {

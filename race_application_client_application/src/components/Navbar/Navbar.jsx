@@ -1,16 +1,16 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import AuthContext from "../../context/AuthContext";
-import DesktopNavbar from "./DesktopNavbar";
-import MobileNavbar from "./MobileNavbar";
-import { ROLE_APPLICANT } from "../../utils/roles";
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
+import DesktopNavbar from './DesktopNavbar';
+import MobileNavbar from './MobileNavbar';
+import { ROLE_APPLICANT } from '../../constants/roles';
 
 const Navbar = () => {
-  const { token, logout, user } = useContext(AuthContext);
+  const { token, removeToken, user } = useContext(AuthContext);
   const isApplicant = user?.roles.includes(ROLE_APPLICANT);
 
   const handleLogout = () => {
-    logout();
+    removeToken();
   };
 
   return (

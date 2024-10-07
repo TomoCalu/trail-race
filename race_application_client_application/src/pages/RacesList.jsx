@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import { ROLE_ADMINISTRATOR } from "../utils/roles";
-import { getDistanceLabel } from "../constants/raceDistances";
-import Table from "../components/Table";
-import { getRaces, deleteRace } from "../services/raceApi";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
+import { ROLE_ADMINISTRATOR } from '../constants/roles';
+import { getDistanceLabel } from '../constants/raceDistances';
+import Table from '../components/Table';
+import { getRaces, deleteRace } from '../services/raceApi';
 
 const RacesList = () => {
   const [races, setRaces] = useState([]);
@@ -28,12 +28,12 @@ const RacesList = () => {
   const isAdmin = user?.roles.includes(ROLE_ADMINISTRATOR);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this race?")) {
+    if (window.confirm('Are you sure you want to delete this race?')) {
       try {
         await deleteRace(id, token);
         setRaces(races.filter((race) => race.id !== id));
       } catch (error) {
-        console.error("Error deleting race:", error);
+        console.error('Error deleting race:', error);
         checkTokenExpiration(error.response);
       }
     }
@@ -44,10 +44,10 @@ const RacesList = () => {
   };
 
   const columns = [
-    { label: "Name", accessor: "name" },
+    { label: 'Name', accessor: 'name' },
     {
-      label: "Distance",
-      accessor: "distance",
+      label: 'Distance',
+      accessor: 'distance',
       format: getDistanceLabel,
     },
   ];
@@ -93,7 +93,7 @@ const RacesList = () => {
             <div className="flex justify-center mt-4">
               <button
                 className="btn btn-primary w-1/4"
-                onClick={() => navigate("/races/add")}
+                onClick={() => navigate('/races/add')}
               >
                 Add New Race
               </button>

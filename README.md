@@ -46,6 +46,17 @@ To run the backend services and frontend application, use the following command:
 After running the services, the application will be accessible at:
 
 - [http://localhost:3000](http://localhost:3000)
+##### Available accounts:
+
+###### Administrator
+
+- Username: admin@admin.com
+- Password: password
+
+###### Applicant
+
+- Username: user@user.com
+- Password: password 
 
 #### Step 4: Clean Up Resources
 

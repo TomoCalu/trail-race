@@ -1,40 +1,17 @@
-import React from "react";
+import React from 'react';
+import TextField from './TextField';
+import SelectField from './SelectField';
 
 const InputField = ({ field, value, handleChange }) => {
-  return (
-    <div className="mb-4">
-      <label className="block text-lg font-medium mb-2">{field.label}</label>
-      {field.type === "select" ? (
-        <select
-          name={field.name}
-          value={value}
-          onChange={handleChange}
-          className="select select-bordered w-full"
-          required={field.required}
-        >
-          <option value="" disabled>
-            {field.placeholder}
-          </option>
-          {field.options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      ) : (
-        <input
-          type={field.type || "text"}
-          name={field.name}
-          value={value}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          disabled={field.disabled}
-          required={field.required}
-          placeholder={field.placeholder}
-        />
-      )}
-    </div>
-  );
+  if (field.type === 'select') {
+    return (
+      <SelectField field={field} value={value} handleChange={handleChange} />
+    );
+  } else {
+    return (
+      <TextField field={field} value={value} handleChange={handleChange} />
+    );
+  }
 };
 
 export default InputField;

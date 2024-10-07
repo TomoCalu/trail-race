@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const MobileNavbar = ({ username, handleLogout, isApplicant }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

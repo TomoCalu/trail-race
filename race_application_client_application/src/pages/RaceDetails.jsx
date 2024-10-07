@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import { ROLE_APPLICANT } from "../utils/roles";
-import { getDistanceLabel } from "../constants/raceDistances";
-import Table from "../components/Table";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
+import { ROLE_APPLICANT } from '../constants/roles';
+import { getDistanceLabel } from '../constants/raceDistances';
+import Table from '../components/Table';
 import {
   getRaceApplications,
   deleteApplication,
-} from "../services/applicationApi";
-import { getRaceDetails } from "../services/raceApi";
+} from '../services/applicationApi';
+import { getRaceDetails } from '../services/raceApi';
 
 const RaceDetails = () => {
   const { id } = useParams();
@@ -26,7 +26,7 @@ const RaceDetails = () => {
         const raceData = await getRaceDetails(id, token);
         setRace(raceData);
       } catch (error) {
-        setError("Failed to fetch race details");
+        setError('Failed to fetch race details');
         checkTokenExpiration(error.response);
       }
     };
@@ -38,11 +38,11 @@ const RaceDetails = () => {
 
         const applied = apps.some(
           (app) =>
-            app.firstName === user.firstName && app.lastName === user.lastName,
+            app.firstName === user.firstName && app.lastName === user.lastName
         );
         setHasUserApplied(applied);
       } catch (error) {
-        setError("Failed to fetch applications");
+        setError('Failed to fetch applications');
         checkTokenExpiration(error.response);
       }
     };
@@ -52,21 +52,21 @@ const RaceDetails = () => {
   }, [id, token, user.firstName, user.lastName, checkTokenExpiration]);
 
   const handleDelete = async (appId) => {
-    if (window.confirm("Are you sure you want to delete this application?")) {
+    if (window.confirm('Are you sure you want to delete this application?')) {
       try {
         await deleteApplication(appId, token);
         const updatedApplications = applications.filter(
-          (app) => app.id !== appId,
+          (app) => app.id !== appId
         );
         setApplications(updatedApplications);
 
         const applied = updatedApplications.some(
           (app) =>
-            app.firstName === user.firstName && app.lastName === user.lastName,
+            app.firstName === user.firstName && app.lastName === user.lastName
         );
         setHasUserApplied(applied);
       } catch (error) {
-        setError("Failed to delete application");
+        setError('Failed to delete application');
         checkTokenExpiration(error.response);
       }
     }
@@ -75,9 +75,9 @@ const RaceDetails = () => {
   const isApplicant = user?.roles.includes(ROLE_APPLICANT);
 
   const columns = [
-    { label: "First Name", accessor: "firstName" },
-    { label: "Last Name", accessor: "lastName" },
-    { label: "Club", accessor: "club" },
+    { label: 'First Name', accessor: 'firstName' },
+    { label: 'Last Name', accessor: 'lastName' },
+    { label: 'Club', accessor: 'club' },
   ];
 
   return (

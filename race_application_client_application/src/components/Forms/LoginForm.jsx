@@ -1,53 +1,31 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../services/authApi";
-import AuthContext from "../../context/AuthContext";
-import InputField from "./InputField";
+import React from 'react';
+import InputField from './InputField';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { token, login } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
-  }, [token, navigate]);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const token = await loginUser(email, password);
-      login(token);
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const LoginForm = ({
+  email,
+  password,
+  setEmail,
+  setPassword,
+  handleSubmit,
+  loading,
+  error,
+}) => {
   const fields = [
     {
-      label: "Email",
-      type: "email",
-      name: "email",
+      label: 'Email',
+      type: 'email',
+      name: 'email',
       value: email,
-      placeholder: "Email",
+      placeholder: 'Email',
       required: true,
       handleChange: (e) => setEmail(e.target.value),
     },
     {
-      label: "Password",
-      type: "password",
-      name: "password",
+      label: 'Password',
+      type: 'password',
+      name: 'password',
       value: password,
-      placeholder: "Password",
+      placeholder: 'Password',
       required: true,
       handleChange: (e) => setPassword(e.target.value),
     },
@@ -62,7 +40,7 @@ const Login = () => {
           <div className="alert alert-error text-sm text-gray-300">{error}</div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {fields.map((field) => (
             <InputField
               key={field.name}
@@ -77,7 +55,7 @@ const Login = () => {
             className="btn btn-primary w-full py-3 text-lg"
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
       </div>
@@ -85,4 +63,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

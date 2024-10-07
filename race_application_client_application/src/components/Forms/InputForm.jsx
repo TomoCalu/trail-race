@@ -1,5 +1,5 @@
-import React from "react";
-import InputField from "./InputField";
+import React from 'react';
+import InputField from './InputField';
 
 const InputForm = ({
   title,
@@ -33,7 +33,7 @@ const InputForm = ({
               className="btn btn-primary w-1/3"
               disabled={loading}
             >
-              {loading ? "Saving..." : buttonLabel}
+              {loading ? 'Saving...' : buttonLabel}
             </button>
           </div>
         </form>

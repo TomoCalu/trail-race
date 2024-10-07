@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import InputForm from "../components/Forms/InputForm";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
+import InputForm from '../components/Forms/InputForm';
 import {
   getApplicationById,
   updateApplication,
   createApplication,
-} from "../services/applicationApi";
+} from '../services/applicationApi';
 
 const ApplicationForm = () => {
   const { raceId, appId } = useParams();
@@ -14,9 +14,9 @@ const ApplicationForm = () => {
   const navigate = useNavigate();
 
   const [applicationData, setApplicationData] = useState({
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
-    club: "",
+    firstName: user.firstName || '',
+    lastName: user.lastName || '',
+    club: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -31,7 +31,7 @@ const ApplicationForm = () => {
         })
         .catch((error) => {
           setLoading(false);
-          setError("Could not load application data");
+          setError('Could not load application data');
           checkTokenExpiration(error.response);
         });
     }
@@ -55,30 +55,30 @@ const ApplicationForm = () => {
     if (appId) {
       updateApplication(appId, data, token)
         .then(() => navigate(`/races/${raceId}`))
-        .catch((err) => setError("Failed to update application"))
+        .catch((err) => setError('Failed to update application'))
         .finally(() => setLoading(false));
     } else {
       createApplication(data, token)
         .then(() => navigate(`/races/${raceId}`))
-        .catch((err) => setError("Failed to create application"))
+        .catch((err) => setError('Failed to create application'))
         .finally(() => setLoading(false));
     }
   };
 
   const fields = [
-    { name: "firstName", label: "First Name", disabled: true, required: true },
-    { name: "lastName", label: "Last Name", disabled: true, required: true },
-    { name: "club", label: "Club (optional)" },
+    { name: 'firstName', label: 'First Name', disabled: true, required: true },
+    { name: 'lastName', label: 'Last Name', disabled: true, required: true },
+    { name: 'club', label: 'Club (optional)' },
   ];
 
   return (
     <InputForm
-      title={appId ? "Edit Application" : "Create New Application"}
+      title={appId ? 'Edit Application' : 'Create New Application'}
       formData={applicationData}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       fields={fields}
-      buttonLabel={appId ? "Update Application" : "Create Application"}
+      buttonLabel={appId ? 'Update Application' : 'Create Application'}
       loading={loading}
       error={error}
     />

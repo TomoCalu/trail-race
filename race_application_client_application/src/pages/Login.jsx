@@ -1,20 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import LoginForm from "../components/Forms/LoginForm";
-import { loginUser } from "../services/authApi";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
+import LoginForm from '../components/Forms/LoginForm';
+import { loginUser } from '../services/authApi';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { token, login } = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { token, saveToken } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (token) {
-      navigate("/");
+      navigate('/');
     }
   }, [token, navigate]);
 
@@ -23,8 +23,8 @@ const Login = () => {
     setLoading(true);
     try {
       const token = await loginUser(email, password);
-      login(token);
-      navigate("/");
+      saveToken(token);
+      navigate('/');
     } catch (err) {
       setError(err.message);
       setLoading(false);

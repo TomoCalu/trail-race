@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import Table from "../components/Table";
-import { getDistanceLabel } from "../constants/raceDistances";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
+import Table from '../components/Table';
+import { getDistanceLabel } from '../constants/raceDistances';
 import {
   getUserApplications,
   deleteApplication,
-} from "../services/applicationApi";
-import { getRaceDetails } from "../services/raceApi";
+} from '../services/applicationApi';
+import { getRaceDetails } from '../services/raceApi';
 
 const MyApplications = () => {
   const { token, user, checkTokenExpiration } = useContext(AuthContext);
@@ -21,7 +21,7 @@ const MyApplications = () => {
         const apps = await getUserApplications(
           user.firstName,
           user.lastName,
-          token,
+          token
         );
 
         const updatedApplications = await Promise.all(
@@ -34,10 +34,10 @@ const MyApplications = () => {
                 raceDistance: race.distance,
               };
             } catch (error) {
-              console.error("Failed to fetch race details:", error);
-              return { ...app, raceName: "Unknown", raceDistance: "Unknown" };
+              console.error('Failed to fetch race details:', error);
+              return { ...app, raceName: 'Unknown', raceDistance: 'Unknown' };
             }
-          }),
+          })
         );
 
         setApplications(updatedApplications);
@@ -56,22 +56,22 @@ const MyApplications = () => {
   };
 
   const handleDelete = async (applicationId) => {
-    if (window.confirm("Are you sure you want to delete this application?")) {
+    if (window.confirm('Are you sure you want to delete this application?')) {
       try {
         await deleteApplication(applicationId, token);
         setApplications((prevApps) =>
-          prevApps.filter((app) => app.id !== applicationId),
+          prevApps.filter((app) => app.id !== applicationId)
         );
       } catch (error) {
-        console.error("Failed to delete application:", error);
+        console.error('Failed to delete application:', error);
       }
     }
   };
 
   const columns = [
-    { label: "Race Name", accessor: "raceName" },
-    { label: "Distance", accessor: "raceDistance", format: getDistanceLabel },
-    { label: "Club", accessor: "club" },
+    { label: 'Race Name', accessor: 'raceName' },
+    { label: 'Distance', accessor: 'raceDistance', format: getDistanceLabel },
+    { label: 'Club', accessor: 'club' },
   ];
 
   return (

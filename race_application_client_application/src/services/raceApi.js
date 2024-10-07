@@ -1,41 +1,41 @@
-import queryApi from "./queryApi";
-import commandApi from "./commandApi";
+import queryApi from './queryApi';
+import commandApi from './commandApi';
 
-const getRaceDetails = async (raceId, token) => {
-  const response = await queryApi.get(`/races/${raceId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+const getRaceDetails = async (raceId) => {
+  try {
+    const response = await queryApi.get(`/races/${raceId}`);
+    return response.data;
+  } catch (err) {
+    throw new Error('Failed to fetch race details.');
+  }
 };
 
-const saveRace = async (raceId, raceData, token) => {
-  const request = raceId
-    ? commandApi.put(`/races/${raceId}`, raceData, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-    : commandApi.post("/races", raceData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-  return request;
+const saveRace = async (raceId, raceData) => {
+  try {
+    const request = raceId
+      ? commandApi.put(`/races/${raceId}`, raceData)
+      : commandApi.post('/races', raceData);
+    return request;
+  } catch (err) {
+    throw new Error(`Failed to ${raceId ? 'update' : 'create'} race.`);
+  }
 };
 
-const getRaces = async (token) => {
-  const response = await queryApi.get("/races", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+const getRaces = async () => {
+  try {
+    const response = await queryApi.get('/races');
+    return response.data;
+  } catch (err) {
+    throw new Error('Failed to fetch races.');
+  }
 };
 
-const deleteRace = async (raceId, token) => {
-  await commandApi.delete(`/races/${raceId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const deleteRace = async (raceId) => {
+  try {
+    await commandApi.delete(`/races/${raceId}`);
+  } catch (err) {
+    throw new Error('Failed to delete race.');
+  }
 };
 
 export { getRaceDetails, saveRace, getRaces, deleteRace };

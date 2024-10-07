@@ -1,5 +1,6 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
-import { getUserInfo } from "../services/authApi";
+import React, { createContext, useCallback, useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import { getUserInfo } from '../services/authApi';
 
 const AuthContext = createContext();
 
@@ -17,41 +18,58 @@ export const AuthProvider = ({ children }) => {
         lastName: userData.lastName,
       });
     } catch (error) {
-      console.error("Error fetching user info:", error);
-      logout();
+      console.error('Error fetching user info:', error);
+      removeToken();
     }
   }, []);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("token");
+    const savedToken = localStorage.getItem('token');
     if (savedToken) {
       setToken(savedToken);
       fetchUserInfo(savedToken);
     }
   }, [fetchUserInfo]);
 
-  const login = async (newToken) => {
+  const saveToken = async (newToken) => {
     setToken(newToken);
-    localStorage.setItem("token", newToken);
+    localStorage.setItem('token', newToken);
     await fetchUserInfo(newToken);
   };
 
-  const logout = () => {
+  const removeToken = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
+  };
+
+  const isTokenExpired = (token) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp < currentTime;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return true;
+    }
   };
 
   const checkTokenExpiration = (response) => {
-    if (response.status === 403) {
-      logout();
-      alert("Your session has expired. Please log in again.");
+    if (isTokenExpired(token)) {
+      removeToken();
+      alert('Your session has expired. Please log in again.');
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ token, user, setToken, login, logout, checkTokenExpiration }}
+      value={{
+        token,
+        user,
+        saveToken,
+        removeToken,
+        checkTokenExpiration,
+      }}
     >
       {children}
     </AuthContext.Provider>
