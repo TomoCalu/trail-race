@@ -6,6 +6,7 @@ A web application for organizing and participating in trail races. This project 
 
 Before starting the application, ensure you have the following installed:
 
+- Java 17
 - Docker
 - Docker Compose
 - Node.js
